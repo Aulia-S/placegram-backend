@@ -1,3 +1,4 @@
+require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
 
@@ -44,10 +45,12 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'An unknown error occurred!' })
 })
 
+const PORT = process.env.PORT || 5000
+
 mongoose
-  .connect('mongodb+srv://placegram:placegram@cluster0.ij5aqpz.mongodb.net/placegram?retryWrites=true&w=majority&appName=Cluster0')
+  .connect(process.env.DB_URL)
   .then(() => {
-    app.listen(5000)
+    app.listen(PORT, () => console.log('App running in http://localhost:' + PORT))
   })
   .catch((err) => {
     console.log(err)
